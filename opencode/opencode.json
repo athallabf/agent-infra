@@ -2,7 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
     "oh-my-openagent@latest",
-    "./plugins/auto-reflect.js"
+    "./plugins/auto-reflect.js",
+    "./plugins/hindsight-auto-memory.js"
   ],
   "mcp": {
     "hindsight-agent": {
