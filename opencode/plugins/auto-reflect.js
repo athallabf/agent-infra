@@ -148,8 +148,25 @@ export const AutoReflect = async ({ client, $ }) => {
     }
   };
 
+  // Debounce: only log once per assistant message completion
+  const loggedMessages = new Set();
+
   return {
     "session.idle": async ({ session }) => { await logSession(session); },
     "session.compacted": async ({ session }) => { await logSession(session); },
+    "message.updated": async ({ message }) => {
+      if (message.role !== "assistant" || message.state !== "completed") return;
+      if (loggedMessages.has(message.id)) return;
+      loggedMessages.add(message.id);
+      if (loggedMessages.size > 100) {
+        const keys = Array.from(loggedMessages);
+        keys.slice(0, 50).forEach(k => loggedMessages.delete(k));
+      }
+      const session = await client.session.messages({
+        path: { id: message.sessionId },
+        query: { limit: 100 },
+      }).then(r => ({ messages: r.data, tools: [], id: message.sessionId }));
+      await logSession(session);
+    },
   };
 };
