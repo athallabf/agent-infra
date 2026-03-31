@@ -165,6 +165,22 @@ EOF
 fi
 
 echo ""
+echo "── Step 5: Auto-Commit Watcher ──"
+
+PLIST_SRC="$SCRIPT_DIR/scripts/com.athl.agent-infra-watcher.plist"
+PLIST_DST="$HOME/Library/LaunchAgents/com.athl.agent-infra-watcher.plist"
+
+if [ -f "$PLIST_SRC" ]; then
+  sed "s|__REPO_PATH__|$SCRIPT_DIR|g" "$PLIST_SRC" > "$PLIST_DST"
+  chmod 644 "$PLIST_DST"
+  launchctl unload "$PLIST_DST" 2>/dev/null || true
+  launchctl load "$PLIST_DST"
+  info "Watcher installed and started"
+else
+  warn "Watcher plist not found — auto-commit disabled"
+fi
+
+echo ""
 echo "=== Setup Complete ==="
 echo ""
 echo "Services:"
@@ -176,6 +192,9 @@ echo "  agent-self:       Your preferences, coding style, agent knowledge"
 echo "  project-kb:       Project architecture, tech stack, decisions"
 echo ""
 echo "Obsidian Vault:     $OBSIDIAN_VAULT_DIR"
+echo ""
+echo "Auto-Commit:        watcher.sh polls every 30s, pushes to GitHub"
+echo "  Log:              /tmp/agent-infra-watcher.log"
 echo ""
 echo "To backup Hindsight data:"
 echo "  ./scripts/backup.sh"
