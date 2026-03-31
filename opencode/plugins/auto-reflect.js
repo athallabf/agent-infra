@@ -130,8 +130,8 @@ export const AutoReflect = async ({ client, $ }) => {
       const content = buildSummary(session);
       const notePath = `${SESSIONS_PATH}/${date}.md`;
 
-      const existing = await $`obsidian vault="${VAULT}" read path="${notePath}" 2>/dev/null || echo "NOT_FOUND"`;
-      const exists = !existing.toString().includes("NOT_FOUND");
+      const existing = await $`obsidian vault="${VAULT}" read path="${notePath}" 2>/dev/null || true`;
+      const exists = existing && !existing.toString().toLowerCase().includes("not found");
 
       if (!exists) {
         await $`obsidian vault="${VAULT}" create path="${notePath}" content="# Daily Session Log: ${date}\n\n---\n${content}\n---\n"`;
