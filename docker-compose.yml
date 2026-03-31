@@ -1,0 +1,26 @@
+services:
+  hindsight:
+    image: ghcr.io/vectorize-io/hindsight:latest
+    container_name: hindsight
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+      - "9999:9999"
+    environment:
+      - HINDSIGHT_API_LLM_PROVIDER=openai
+      - HINDSIGHT_API_LLM_BASE_URL=https://openrouter.ai/api/v1
+      - HINDSIGHT_API_LLM_API_KEY=${OPENROUTER_API_KEY}
+      - HINDSIGHT_API_LLM_MODEL=${HINDSIGHT_LLM_MODEL:-qwen/qwen3.6-plus-preview:free}
+      - HINDSIGHT_API_EMBEDDINGS_PROVIDER=openai
+      - HINDSIGHT_API_EMBEDDINGS_OPENAI_BASE_URL=https://openrouter.ai/api/v1
+      - HINDSIGHT_API_EMBEDDINGS_OPENAI_API_KEY=${OPENROUTER_API_KEY}
+      - HINDSIGHT_API_EMBEDDINGS_OPENAI_MODEL=openai/text-embedding-3-small
+      - HINDSIGHT_API_RERANKER_PROVIDER=rrf
+      - HINDSIGHT_API_RETAIN_MISSION=Focus on technical decisions, architecture choices, coding patterns, user preferences, and project context. Deprioritize social or personal information.
+      - HINDSIGHT_API_RETAIN_EXTRACTION_MODE=verbose
+    volumes:
+      - hindsight-data:/home/hindsight/.pg0
+
+volumes:
+  hindsight-data:
+    driver: local

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "oh-my-openagent@latest",
+    "./plugins/auto-reflect.js"
+  ],
+  "mcp": {
+    "hindsight-agent": {
+      "type": "remote",
+      "url": "http://localhost:8888/mcp/agent-self/",
+      "enabled": true,
+      "timeout": 30000
+    },
+    "hindsight-project": {
+      "type": "remote",
+      "url": "http://localhost:8888/mcp/project-kb/",
+      "enabled": true,
+      "timeout": 30000
+    }
+  }
+}
