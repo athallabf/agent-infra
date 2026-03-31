@@ -8,9 +8,13 @@ services:
       - "9999:9999"
     environment:
       - HINDSIGHT_API_LLM_PROVIDER=openai
-      - HINDSIGHT_API_LLM_BASE_URL=https://openrouter.ai/api/v1
-      - HINDSIGHT_API_LLM_API_KEY=${OPENROUTER_API_KEY}
-      - HINDSIGHT_API_LLM_MODEL=${HINDSIGHT_LLM_MODEL:-qwen/qwen3.6-plus-preview:free}
+      - HINDSIGHT_API_LLM_BASE_URL=https://opencode.ai/zen/v1
+      - HINDSIGHT_API_LLM_API_KEY=zen-free
+      - HINDSIGHT_API_LLM_MODEL=minimax-m2.5-free
+      - HINDSIGHT_API_REFLECT_LLM_PROVIDER=openai
+      - HINDSIGHT_API_REFLECT_LLM_BASE_URL=https://opencode.ai/zen/v1
+      - HINDSIGHT_API_REFLECT_LLM_API_KEY=zen-free
+      - HINDSIGHT_API_REFLECT_LLM_MODEL=minimax-m2.5-free
       - HINDSIGHT_API_EMBEDDINGS_PROVIDER=openai
       - HINDSIGHT_API_EMBEDDINGS_OPENAI_BASE_URL=https://openrouter.ai/api/v1
       - HINDSIGHT_API_EMBEDDINGS_OPENAI_API_KEY=${OPENROUTER_API_KEY}
